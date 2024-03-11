@@ -1,0 +1,92 @@
+<Problem>
+
+Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot construct instance of `zerobase.finiance.model.Company` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('i want to learn springBoot')]
+-> Entity의 클래스 레벨에 @NoArgsConstructor를 추가
+= 해결 body에 값 안넣고 돌렸다...
+
+
+
+
+<알게 된 점>
+
+
+유니크 키에 디테일 속성은 어떤 DB에 따라 다른데, 유니크 키는 일종의 인덱스이자 제약 조건
+중복 데이터 저장을 방지
+-> INSERT IGNORE 중복 키 데이터 삽입시 해당 값 무시
+-> ON DUPLICATE UPDATE 레코드에 컬럼 값 중에서 update 키워드 뒤에 정의된 컬럼 값 update
+단일 컬럼 뿐만 아니라 복합 컬럽을 지정 할 수도 있다.
+
+DB Index
+Cardinality
+중복된 DB 가 많을 수록 Cardinality가 낮은 DB, -> 인덱스를 걸어도 효율 X
+중복 DB 적을 수록 Cardinality 높은 DB -> 인덱스 효율성 높아진다.
+선택도, 해당 쿼리 얼마나 선택 되는지
+
+cron 사용 법
+ @Scheduled(cron = "0/5 * * * * *") //5초마다 실행 ( 초 분 일 월 요일 )
+   public void test(){
+       System.out.println("now -> " + System.currentTimeMillis());
+   }
+
+Thread.sleep -> 잠깐 텀을 주는 용도
+InterruptedException
+인터럽트가 받는 스레드가 blocking 될 수 있는 메소드를 실행 할때
+
+Thread 5 status
+New
+Ready
+Running
+Blocked/Waiting
+Exit
+
+스케쥴러가 관리해야 할 부분이 한개 이면 @Scheduler로 해결 가능, -> 여러개 일 경우 힘듬 = Threadpool 필요
+한 작업이 수행되는 동안 다른 작업은 수행 되지 않는다. -> 스케줄러가 한개의 Thread로 동작 하기 때문
+
+Thread pool
+여러 개의 스레드 관리 -> 설정된 크기에 스레드를 형성 후 관리
+CPU 처리가 많은 경우,
+I/O 작업이 많은 경우
+
+Cache
+임시로 데이터 저장하는 공간
+
+Redis
+Cache 서버를 구축 할때 가장 많이 사용 하는 것
+System 메모리를 사용해서 데이터 저장 -> key, value data solution
+인메모리 데이터 스토어 (영속성도 지원) 단 RDB 만큼 안정적으로 저장한다 ?는 아니다
+관계형 데이터 베이스
+다양한 형태의 데이터 터입 지원
+
+single, / Sentinel, Cluster (여러 인스턴스)
+Cluster
+->ex) Server 3대 서버 한대당 Redis server 3개 (서버 하나당 마스터노드 하나) / (슬레이브 노드 -> 마스터노드 복사)
+1번에 대한 마스터노드 -> 다른 서버에 저장 (본인 서버에 copy를 저장 하는 것은 아니다)
+서버 한대만 살아있다면 다른 서버 환경을 갖고 있기 때문에 상호 보완이 된다.
+
+
+wsl --install -> 윈도우에서 리눅스 처럼 powershell 처리
+
+Serialization (직렬화)
+데이터 또는 오브젝트와 같은 값들을 바이트 형태로 반환 (자바 외부에서도 해당 데이터를 사용 가능)
+
+케시가 계속 남아있다면 key데이터 남아있다면, 실제 클라이언트 요청은 뒤에 있는 서버까지 가지 않고, update 되지 않은 값이 내려질 수 있다.
+캐시에서 TTL(Time To Live)을 지정 해주면 데이터 유효기간 지정 해 줄수 있다.
+
+JWT
+사용자 인증 및 식별에 사용되는 토큰
+토큰은 사용자 정보를 포함
+
+-Header = 토큰의 타입, 어떤 암호가 저장 되어 있는지
+-Payload = token, 사용자 정보 (만료 시간 꼭 넣어주어야 한다) / 민감한 정보 포함 X
+-Signature = 토큰이 유효한지
+
+암호화 알고리즘
+평문을 암호문 = 암호화
+암호화을 평문 = 복호화
+
+암호화 == 복호화 -> 대칭
+암호화 != 복호화 -> 비대칭
+
+log
+console, file. 중앙화
+file로 log로 남길경우 -> 크기 고려
